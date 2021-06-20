@@ -3,6 +3,7 @@ package com.histsys;
 import com.blade.Blade;
 import com.histsys.config.Env;
 import io.github.biezhi.anima.Anima;
+import io.github.biezhi.anima.dialect.PostgreSQLDialect;
 
 public class Starter {
     public void start() {
@@ -20,6 +21,7 @@ public class Starter {
         String dbUrl = Env.get("HISTSYS_DB_URL", "jdbc:postgresql://localhost:5433/csys");
         String dbUser = Env.get("HISTSYS_DB_USERNAME", "neo");
         String dbPass = Env.get("HISTSYS_DB_PASSWORD", "");
-        Anima.open(dbUrl, dbUser, dbPass);
+        Anima anima = Anima.open(dbUrl, dbUser, dbPass);
+        anima.dialect(new PostgreSQLDialect()); // 分页代理
     }
 }
