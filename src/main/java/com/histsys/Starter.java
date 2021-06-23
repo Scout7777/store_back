@@ -10,7 +10,9 @@ public class Starter {
         // start database
         initDatabase();
         // start mvc
-        Blade.of().start();
+        Blade.of()
+//                .before("/api/*", new HttpAuthRouteHandler())
+                .start();
     }
 
     public static void main(String[] args) {
@@ -18,7 +20,7 @@ public class Starter {
     }
 
     private void initDatabase() {
-        String dbUrl = Env.get("HISTSYS_DB_URL", "jdbc:postgresql://localhost:5433/csys");
+        String dbUrl = Env.get("HISTSYS_DB_URL", "jdbc:postgresql://localhost:5433/histsys_dev");
         String dbUser = Env.get("HISTSYS_DB_USERNAME", "neo");
         String dbPass = Env.get("HISTSYS_DB_PASSWORD", "");
         Anima anima = Anima.open(dbUrl, dbUser, dbPass);

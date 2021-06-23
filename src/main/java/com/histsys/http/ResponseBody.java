@@ -6,7 +6,7 @@ import lombok.Data;
 public class ResponseBody<T> {
     private T data;
     private String message;
-    private Integer status = 200;
+    private Integer status = 200; // 等效于 HTTP 状态码，此后 HTTP 的状态码一律 200 OK，或 401、403 业务拒绝
 
     public ResponseBody() {
     }
@@ -29,6 +29,7 @@ public class ResponseBody<T> {
     public static <T> ResponseBody status(Integer status) {
         return new ResponseBody(status, null, null);
     }
+
     public static <T> ResponseBody ok(T data) {
         return status(200).body(data);
     }
@@ -37,12 +38,13 @@ public class ResponseBody<T> {
         return status(400).body(data);
     }
 
-    public static <T> ResponseBody message(String message) {
-        return new ResponseBody(200, null, message);
-    }
-
     public ResponseBody body(T data) {
         this.setData(data);
+        return this;
+    }
+
+    public ResponseBody message(String message) {
+        this.setMessage(message);
         return this;
     }
 }

@@ -16,7 +16,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User find(long userId) {
-        return select().from(User.class).where("id=?", userId).one();
+    public User find(long userId) throws UserNotFoundException {
+        User user = select().from(User.class).where("id=?", userId).one();
+        if (user == null) {
+            throw new UserNotFoundException(String.format("User: [%s] not found", "" + userId));
+        }
+        return user;
+    }
+
+    @Override
+    public User find(String uid) throws UserNotFoundException {
+        User user = select().from(User.class).where("uid=?", uid).one();
+        if (user == null) {
+            throw new UserNotFoundException(String.format("User: [%s] not found", uid));
+        }
+        return user;
     }
 }

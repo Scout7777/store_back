@@ -31,7 +31,7 @@ public class DoMigration {
     }
 
     private static void initDatabase() {
-        String dbUrl = Env.get("HISTSYS_DB_URL", "jdbc:postgresql://localhost:5433/csys");
+        String dbUrl = Env.get("HISTSYS_DB_URL", "jdbc:postgresql://localhost:5433/histsys_dev");
         String dbUser = Env.get("HISTSYS_DB_USERNAME", "neo");
         String dbPass = Env.get("HISTSYS_DB_PASSWORD", "");
         Anima.open(dbUrl, dbUser, dbPass);
