@@ -1,6 +1,0 @@
-com/histsys/DoMigration.class
-com/histsys/Starter.class
-com/histsys/repository/UserRepository.class
-com/histsys/model/User.class
-com/histsys/controller/UserController.class
-com/histsys/repository/impl/UserRepositoryImpl.class
