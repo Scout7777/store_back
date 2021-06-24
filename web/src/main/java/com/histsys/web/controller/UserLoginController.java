@@ -10,9 +10,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -23,14 +21,27 @@ import java.util.Optional;
  * /api/login
  */
 @RestController
-public class LoginController {
+@RequestMapping("/api")
+public class UserLoginController {
     @Resource
     private UserRepository userRepository;
     @Autowired
     @Qualifier("mockUserTokenService")
     private TokenService tokenService;
 
-    @PostMapping("/api/login")
+    @GetMapping("/login/test_token/{userId}")
+    public ResponseEntity testToken(@PathVariable("userId") Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            TokenEntity token = tokenService.encode(new JwtUser(user.getId(), user.getRole().name(), false));
+            return ResponseBody.status(200).body(token).toResponseEntity();
+        } else {
+            return ResponseBody.status(400).message("用户不存在").toResponseEntity();
+        }
+    }
+
+    @PostMapping("/login")
     public ResponseEntity login(@RequestBody Payload payload) {
         Optional<User> userOptional = userRepository.findByUid(payload.getUid());
         if (userOptional.isPresent()) {
