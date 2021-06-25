@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="facf7d1b-1796-47ef-8d2b-97ad793b9908" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/prod.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -143,7 +143,7 @@
       <workItem from="1624253094863" duration="1468000" />
       <workItem from="1624437117979" duration="15263000" />
       <workItem from="1624467053761" duration="16448000" />
-      <workItem from="1624610568429" duration="632000" />
+      <workItem from="1624610568429" duration="1512000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1624212246584</created>
@@ -173,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624537678956</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="workflow add">
+      <created>1624611646604</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1624611646604</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,7 +203,8 @@
     <MESSAGE value="auth" />
     <MESSAGE value="refactor to maven module proj." />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="workflow add" />
+    <option name="LAST_COMMIT_MESSAGE" value="workflow add" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
