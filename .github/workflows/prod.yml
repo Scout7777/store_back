@@ -33,7 +33,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
 #          PASSWORD: ${{ secrets.PASSWORD }}
-          KEY: ${{ secrets.SSHKEY }}
+          KEY: ${{ secrets.SSHKEY2 }}
           script: |
             cd /histsys/prod
             rm -rf ./source_files
@@ -47,7 +47,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
 #          PASSWORD: ${{ secrets.PASSWORD }}
-          KEY: ${{ secrets.SSHKEY }}
+          KEY: ${{ secrets.SSHKEY2 }}
         with:
           source: "."
           target: "/histsys/prod/source_files"
@@ -59,7 +59,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
 #          PASSWORD: ${{ secrets.PASSWORD }}
-          KEY: ${{ secrets.SSHKEY }}
+          KEY: ${{ secrets.SSHKEY2 }}
           script: |
             export SPRING_PROFILES_ACTIVE=prod
             echo "===============================[Start Building]======================================"
@@ -79,7 +79,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
 #          PASSWORD: ${{ secrets.PASSWORD }}
-          KEY: ${{ secrets.SSHKEY }}
+          KEY: ${{ secrets.SSHKEY2 }}
           script: |
             export SPRING_PROFILES_ACTIVE=prod
             cd /histsys/prod/
