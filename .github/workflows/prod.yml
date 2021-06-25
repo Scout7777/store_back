@@ -65,6 +65,10 @@ jobs:
             echo "===============================[Start Building]======================================"
             cd /histsys/prod/source_files
             mvn package -B
+            if [ ! -f "./web/target/web-1.0-SNAPSHOT.jar" ];then
+              echo "Error: Compile Fail, File web-1.0-SNAPSHOT.jar not exist."
+              exit 1
+            fi
             echo "😀Compile Success"
             echo "===============================[Stop Running]======================================"
             echo "Kill Old Process"
