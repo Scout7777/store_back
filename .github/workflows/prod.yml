@@ -32,8 +32,8 @@ jobs:
           host: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-#          KEY: ${{ secrets.SSHKEY }}
+#          PASSWORD: ${{ secrets.PASSWORD }}
+          KEY: ${{ secrets.SSHKEY }}
           script: |
             cd /histsys/prod
             rm -rf ./source_files
@@ -46,8 +46,8 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-#          KEY: ${{ secrets.SSHKEY }}
+#          PASSWORD: ${{ secrets.PASSWORD }}
+          KEY: ${{ secrets.SSHKEY }}
         with:
           source: "."
           target: "/histsys/prod/source_files"
@@ -58,8 +58,8 @@ jobs:
           host: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-#          KEY: ${{ secrets.SSHKEY }}
+#          PASSWORD: ${{ secrets.PASSWORD }}
+          KEY: ${{ secrets.SSHKEY }}
           script: |
             export SPRING_PROFILES_ACTIVE=prod
             echo "===============================[Start Building]======================================"
@@ -78,8 +78,8 @@ jobs:
           host: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-#          KEY: ${{ secrets.SSHKEY }}
+#          PASSWORD: ${{ secrets.PASSWORD }}
+          KEY: ${{ secrets.SSHKEY }}
           script: |
             export SPRING_PROFILES_ACTIVE=prod
             cd /histsys/prod/
