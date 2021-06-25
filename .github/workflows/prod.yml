@@ -29,11 +29,15 @@ jobs:
       - name: Setup Dir
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          password: ${{ secrets.PASSWORD }}
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USERNAME }}
+#          port: ${{ secrets.PORT }}
+#          password: ${{ secrets.PASSWORD }}
 #          KEY: ${{ secrets.SSHKEY2 }}
+          host: ${{ secrets.HOST }}
+          username: root
+          port: 22
+          password: Xxxx1234_
           script: |
             cd /histsys/prod
             rm -rf ./source_files
