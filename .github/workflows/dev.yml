@@ -1,4 +1,4 @@
-name: HistSys Production CI
+name: HistSys Development CI
 
 on:
   push:
