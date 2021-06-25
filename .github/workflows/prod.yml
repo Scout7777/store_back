@@ -1,0 +1,88 @@
+name: HistSys Production CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '13.0.1' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
+      - run: mvn package -B
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Dir
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            cd /histsys/prod
+            rm -rf ./source_files
+            mkdir -p ./source_files
+            echo "🙊Remove Old Source Files Success"
+
+      - name: Copy file via scp
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+        with:
+          source: "."
+          target: "/histsys/prod/source_files"
+
+      - name: Build App
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            export SPRING_PROFILES_ACTIVE=prod
+            echo "===============================[Start Building]======================================"
+            cd /histsys/prod/source_files
+            mvn package -B
+            echo "😀Compile Success"
+            echo "===============================[Stop Running]======================================"
+            echo "Kill Old Process"
+            pid0=$(netstat -anp | grep -w 8080 | sed -r 's#.* (.*)/.*#\1#' | head -n 1)
+            echo "😀Killing pid: $pid0"
+            [ -z "$pid0" ] || kill $pid0
+
+      - name: Run App
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            export SPRING_PROFILES_ACTIVE=prod
+            cd /histsys/prod/
+            mkdir -p logs
+            rm -rf ./app/
+            mv source_files app
+            cd ./app
+            logpath=/histsys/prod/logs/$(date +"%Y-%m-%d@%H_%M_%S").log
+            nohup java -jar web/target/web-1.0-SNAPSHOT.jar -Duser.timezone=GMT+8 > $logpath &
+            echo "🐶Deploy Success"
