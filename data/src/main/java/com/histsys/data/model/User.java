@@ -1,8 +1,7 @@
 package com.histsys.data.model;
 
-import lombok.AccessLevel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Getter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,23 +15,36 @@ import java.util.Random;
 @Table(name = "users")
 @Entity
 public class User {
+    // 由 hospitalId 和 id 唯一确定一个 user，为方便操作，此处 id 也视为唯一
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String uid;
+    private Long id; // 对应 staffId
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
     @Enumerated
     private Role role;
-    private String avatar;
 
+    private String staffNo; // 系统自动生成，一般6位，可用此登录?
     private String name;
+    private String avatar;
     private String email;
     private String telephone;
-    @Enumerated
-    private Status status;
 
+    @Enumerated
+    private Status status; // 账号状态
+
+    @JsonIgnore
     private String salt;
-//    @Getter(AccessLevel.PRIVATE)
+    // @Getter(AccessLevel.PRIVATE)
+    @JsonIgnore
     private String password; // hashed
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_info_id")
+    private UserInfo userInfo;
 
     @CreationTimestamp
     private Date createdAt;
