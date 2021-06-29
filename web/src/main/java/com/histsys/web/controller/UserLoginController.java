@@ -34,7 +34,7 @@ public class UserLoginController {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            TokenEntity token = tokenService.encode(new JwtUser(user.getId(), user.getRole().name(), false));
+            TokenEntity token = tokenService.encode(new JwtUser(user.getId(), user.getRole() == null ? null : user.getRole().name(), false));
             return ResponseBody.status(200).body(token).toResponseEntity();
         } else {
             return ResponseBody.status(400).message("用户不存在").toResponseEntity();
@@ -43,11 +43,11 @@ public class UserLoginController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody Payload payload) {
-        Optional<User> userOptional = userRepository.findByUid(payload.getUid());
+        Optional<User> userOptional = userRepository.findByStaffNo(payload.getUsername());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (user.isPasswordCorrect(payload.getPassword())) {
-                TokenEntity token = tokenService.encode(new JwtUser(user.getId(), user.getRole().name(), false));
+                TokenEntity token = tokenService.encode(new JwtUser(user.getId(), user.getRole() == null ? null : user.getRole().name(), false));
                 return ResponseBody.status(200).body(token).toResponseEntity();
             } else {
                 return ResponseBody.status(400).message("账号/密码错误").toResponseEntity();
@@ -59,7 +59,7 @@ public class UserLoginController {
 
     @Data
     static class Payload {
-        private String uid;
+        private String username;
         private String password;
     }
 }

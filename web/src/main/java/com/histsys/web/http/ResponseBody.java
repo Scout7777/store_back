@@ -11,6 +11,7 @@ public class ResponseBody<T> {
     private T data;
     private String message;
     private Integer status = 200; // 等效于 HTTP 状态码，此后 HTTP 的状态码一律 200 OK，或 401、403 业务拒绝
+    private boolean success = true;
 
     public ResponseBody() {
     }

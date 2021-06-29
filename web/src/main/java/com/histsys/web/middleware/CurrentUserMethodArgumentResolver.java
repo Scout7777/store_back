@@ -54,7 +54,8 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
         JwtUser jwtUser = null;
         try {
             jwtUser = tokenService.decode(token);
-            if (jwtUser == null) jwtUser = new JwtUser(); else jwtUser.setAvailable(true);
+            if (jwtUser == null) jwtUser = new JwtUser();
+            else jwtUser.setAvailable(true);
         } catch (Exception e) {
             if (currentUser.mustLogin())
                 throw new JwtUserDecodeException(token);
@@ -64,7 +65,7 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
         }
         if (currentUser.mustLogin() && jwtUser.isExpiration())
             throw new JwtUserExpirationException(token);
-        if (currentUser.mustLogin() && !isRoleCheckSuccess(currentUser.requiredRoles(), User.Role.valueOf(jwtUser.getRole()))) {
+        if (currentUser.mustLogin() && !isRoleCheckSuccess(currentUser.requiredRoles(), jwtUser.getRole() == null ? null : User.Role.valueOf(jwtUser.getRole()))) {
             throw new JwtUserNoAuthException(currentUser.requiredRoles());
         }
         // select user
@@ -76,7 +77,7 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
     private boolean isRoleCheckSuccess(User.Role[] requiredRoles, User.Role userRole) {
         if (requiredRoles.length == 0) return true; // require nothing
         for (User.Role requiredRole : requiredRoles) {
-            if (userRole.equals(requiredRole)) {
+            if (requiredRole.equals(userRole)) {
                 return true;
             }
         }

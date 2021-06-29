@@ -77,10 +77,10 @@ public class JwtServiceImpl implements TokenService {
     public JwtUser decode(String token) {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 //        List<String> roles = Arrays.stream(((String) claims.get("roles")).split(",")).collect(Collectors.toList());
-        String role = claims.get("role").toString();
+        Object roleObject = claims.get("role");
         Long userId = Long.parseLong(claims.getSubject());
         Date expiredDate = claims.getExpiration();
-        return new JwtUser(userId, role, expiredDate.before(new Date()));
+        return new JwtUser(userId, roleObject == null ? null : roleObject.toString(), expiredDate.before(new Date()));
     }
 
 }
