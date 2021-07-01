@@ -19,9 +19,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // 对应 staffId
-    @ManyToOne
-    @JoinColumn(name = "hospital_id")
-    private Hospital hospital;
+//    @ManyToOne
+//    @JoinColumn(name = "hospital_id")
+//    private Hospital hospital;
 
     @Enumerated
     private Role role;
