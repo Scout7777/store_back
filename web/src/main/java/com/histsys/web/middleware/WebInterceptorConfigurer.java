@@ -18,7 +18,10 @@ public class WebInterceptorConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry
+                .addMapping("/**")
+                .allowedHeaders("authorization", "content-type")
+                .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE");
     }
 
     @Autowired

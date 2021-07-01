@@ -34,15 +34,21 @@ public class UserCreateController {
     @PostMapping
     public ResponseEntity create(@RequestBody Payload payload) {
         // 检查数据合法
-        if (payload.getHospitalId() == null) {
-            return ResponseBody.status(400).message("请选择所属医院").toResponseEntity();
-        }
+//        if (payload.getHospitalId() == null) {
+//            return ResponseBody.status(400).message("请选择所属医院").toResponseEntity();
+//        }
         if (payload.getPassword() == null || payload.getPassword().isBlank()) {
             return ResponseBody.status(400).message("请设置初始密码").toResponseEntity();
         }
-
+        if (payload.getStaffNo() != null && !payload.getStaffNo().isBlank()) {
+            Optional<User> user = userRepository.findByStaffNo(payload.getStaffNo());
+            if (user.isPresent()) {
+                return ResponseBody.status(400).message("该工号已被注册").toResponseEntity();
+            }
+        }
         // create pojo
         User user = toUserModel(payload);
+        user.setStatus(User.Status.active);
         // staffNo: 如果未传入，则设置一个
         boolean needResetStaffNo = false;
         if (user.getStaffNo() == null || user.getStaffNo().isBlank()) {
@@ -66,12 +72,13 @@ public class UserCreateController {
 
 
     private User toUserModel(Payload payload) {
-        Hospital hospital = hospitalRepository.getOne(payload.getHospitalId());
+//        Hospital hospital = hospitalRepository.getOne(payload.getHospitalId());
 
         User user = new User();
 
         user.setId(null);
-        user.setHospital(hospital);
+//        user.setHospital(hospital);
+        user.setRole(payload.getRole());
         user.setStaffNo(payload.getStaffNo());
         user.setAvatar(payload.getAvatar());
         user.setName(payload.getName());
@@ -79,6 +86,7 @@ public class UserCreateController {
         user.setTelephone(payload.getTelephone());
         user.setPassword(payload.getPassword()); // 会自动hash+salt
 
+        user.setStatus(payload.getStatus());
         return user;
     }
 
@@ -124,6 +132,8 @@ public class UserCreateController {
         private String email;
         private String telephone;
         private String password;
+
+        private User.Status status;
 
         // user info
         private String idNo; // 身份证

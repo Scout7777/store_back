@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 public class UserView {
-    private String hospitalId;
+//    private String hospitalId;
     private Long id;
     private User.Role role;
     private String staffNo;
@@ -51,15 +51,17 @@ public class UserView {
     private Date createdAt;
     private Date updatedAt;
 
+    private User.Status status;
+
 
     public static UserView toView(User user) {
         UserView view = new UserView();
         if (user.getUserInfo() != null)
             BeanUtils.copyProperties(user.getUserInfo(), view);
-        if (user.getHospital() != null) {
-            BeanUtils.copyProperties(user.getHospital(), view);
-            view.setHospitalId(user.getHospital().getId());
-        }
+//        if (user.getHospital() != null) {
+//            BeanUtils.copyProperties(user.getHospital(), view);
+//            view.setHospitalId(user.getHospital().getId());
+//        }
         BeanUtils.copyProperties(user, view);
         view.setCreatedAt(user.getCreatedAt());
         view.setUpdatedAt(user.getUpdatedAt());
