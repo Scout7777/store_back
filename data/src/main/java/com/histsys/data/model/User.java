@@ -53,9 +53,7 @@ public class User {
 
     public static enum Role {
         admin,
-        doctor,
-        nurse,
-        engineer
+        user,
     }
 
     public static enum Status {

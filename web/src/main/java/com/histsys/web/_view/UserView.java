@@ -26,8 +26,7 @@ public class UserView {
     private String staffLevel;
 
     private Boolean isAdvanced; // 是否进修
-    private UserInfo.StaffStatus staffStatus; // 在职离岗信息
-    private UserInfo.PostType postType; // 编制类型
+
     private String hospitalPosition;
 
     // 证书信息
